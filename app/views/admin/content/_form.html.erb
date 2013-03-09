@@ -147,6 +147,9 @@
       <%= render 'admin/content/attachment', { :attachment_num => 1, :hidden => false } -%>
     </ul>
   </div>    
+  
+  <%= render ('admin/content/merge') unless @article.id.nil?%>
+  
   </div>
 
 </div>
