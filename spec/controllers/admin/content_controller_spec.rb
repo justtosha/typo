@@ -606,6 +606,12 @@ describe Admin::ContentController do
         response.body.should == '<ul class="unstyled" id="autocomplete"><li>bar</li><li>bazz</li></ul>'
       end
     end
+    
+    describe 'merge action' do
+      it 'should call the model method which merges the articles' do
+        Article.should_receive(:merge_with)
+      end
+    end
 
   end
 

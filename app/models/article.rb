@@ -80,6 +80,39 @@ class Article < Content
     Article.exists?({:parent_id => self.id})
   end
 
+  def merge_with!(id)
+    article1 = Article.find(id)
+    
+    return self if article1 == nil or self.id == article1.id
+    
+    self.title = self.title || article1.title
+    self.author = self.author || article1.author
+    
+    self.body = self.body + article1.body
+    #self.extended = self.extended + article.extended
+    article1.comments.each() do |cmt|
+      self.comments << cmt
+    end  
+    debugger 
+    self.comments.each() do |cmt|
+      cmt.save!()
+    end
+    
+    article1.feedback.each() do |fback|
+      self.feedbacks << fback
+    end
+    
+    self.feedback.each() do |fback|
+      fback.save!()
+    end
+    
+    self.save!()
+    debugger
+    article1.destroy()
+    
+    return self
+  end
+  
   attr_accessor :draft, :keywords
 
   has_state(:state,
@@ -466,4 +499,5 @@ class Article < Content
     to = to - 1 # pull off 1 second so we don't overlap onto the next day
     return from..to
   end
+ 
 end

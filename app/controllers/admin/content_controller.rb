@@ -24,10 +24,38 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def new
+    if(params[:commit] == 'Merge')
+      perform_merge
+      return
+    end
+    
     new_or_edit
+  end
+  
+  def perform_merge
+    @article = Article.find(params[:id])
+    
+    unless @article.access_by? current_user
+      redirect_to :action => 'index'
+      flash[:error] = _("Error, you are not allowed to perform this action")
+      return
+    end
+    id = params[:merge_with]
+    if(id != nil)
+      @article = @article.merge_with!(id)
+      flash[:notice] = _("The article was merged successfully")
+    end
+    
+    redirect_to :action => 'index'
+    
   end
 
   def edit
+    #if(params[:commit] == 'Merge')
+    #  perform_merge
+    #  return
+    #end
+    
     @article = Article.find(params[:id])
     unless @article.access_by? current_user
       redirect_to :action => 'index'
@@ -142,6 +170,7 @@ class Admin::ContentController < Admin::BaseController
   def new_or_edit
     id = params[:id]
     id = params[:article][:id] if params[:article] && params[:article][:id]
+    
     @article = Article.get_or_build_article(id)
     @article.text_filter = current_user.text_filter if current_user.simple_editor?
 
