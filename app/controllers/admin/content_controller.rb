@@ -35,11 +35,11 @@ class Admin::ContentController < Admin::BaseController
   def perform_merge
     @article = Article.find(params[:id])
     
-    unless @article.access_by? current_user
-      redirect_to :action => 'index'
-      flash[:error] = _("Error, you are not allowed to perform this action")
-      return
-    end
+    #unless @article.access_by? current_user
+    #  redirect_to :action => 'index'
+    #  flash[:error] = _("Error, you are not allowed to perform this action")
+    #  return
+    #end
     id = params[:merge_with]
     if(id != nil)
       @article = @article.merge_with!(id)

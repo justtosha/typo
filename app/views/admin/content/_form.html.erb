@@ -148,7 +148,7 @@
     </ul>
   </div>    
   
-  <%= render ('admin/content/merge') unless @article.id.nil?%>
+  <%= render ('admin/content/merge') if(not @article.id.nil? and current_user.admin?)%>
   
   </div>
 
