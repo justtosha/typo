@@ -93,7 +93,7 @@ class Article < Content
     article1.comments.each() do |cmt|
       self.comments << cmt
     end  
-    debugger 
+    
     self.comments.each() do |cmt|
       cmt.save!()
     end
@@ -107,7 +107,7 @@ class Article < Content
     end
     
     self.save!()
-    debugger
+   
     article1.destroy()
     
     return self
