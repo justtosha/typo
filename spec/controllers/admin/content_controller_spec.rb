@@ -610,6 +610,7 @@ describe Admin::ContentController do
     describe 'merge action' do
       it 'should call the model method which merges the articles' do
         Article.should_receive(:merge_with)
+        click_button("Merge");
       end
     end
 

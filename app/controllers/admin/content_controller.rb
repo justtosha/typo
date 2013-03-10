@@ -24,38 +24,23 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def new
-    debugger
-    if(params[:commit] == 'Merge')
-      perform_merge
-      return
-    end
-    
     new_or_edit
   end
   
-  def perform_merge
-    @article = Article.find(params[:id])
-    
-    #unless @article.access_by? current_user
-    #  redirect_to :action => 'index'
-    #  flash[:error] = _("Error, you are not allowed to perform this action")
-    #  return
-    #end
+  def merge
+    debugger
+    @article = Article.find(params[:src_id])
     id = params[:merge_with]
     if(id != nil)
       @article = @article.merge_with!(id)
       flash[:notice] = _("The article was merged successfully")
     end
-    
-    redirect_to :action => 'index'
-    
+
+    #Article.merge(params[:id], params[:merge_with])
+    redirect_to '/admin/content'
   end
 
   def edit
-    #if(params[:commit] == 'Merge')
-    #  perform_merge
-    #  return
-    #end
     
     @article = Article.find(params[:id])
     unless @article.access_by? current_user
