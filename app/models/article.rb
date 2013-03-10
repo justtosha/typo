@@ -90,21 +90,15 @@ class Article < Content
     
     self.body = self.body + article1.body
     #self.extended = self.extended + article.extended
-    article1.comments.each() do |cmt|
-      self.comments << cmt
-    end  
     
-    self.comments.each() do |cmt|
-      cmt.save!()
-    end
+    comments_2 = Feedback.find_all_by_article_id(id)
     
-    article1.feedback.each() do |fback|
-      self.feedbacks << fback
-    end
-    
-    self.feedback.each() do |fback|
-      fback.save!()
-    end
+    unless comments_2.blank?
+        comments_2.each do |comment|
+          comment.article_id = self.id
+          comment.save
+        end
+      end
     
     self.save!()
    
