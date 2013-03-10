@@ -24,6 +24,7 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def new
+    debugger
     if(params[:commit] == 'Merge')
       perform_merge
       return
